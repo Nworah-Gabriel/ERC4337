@@ -53,8 +53,9 @@ def create_account(request):
             
             # Generate private key from mnemonic
             private_key = Account.from_mnemonic(mnemonic).key.hex()
-
-            return JsonResponse({"mnemonic": mnemonic, "private_key": private_key})
+            address = Account.from_key(private_key).address
+            
+            return JsonResponse({"mnemonic": mnemonic, "private_key": private_key, "address": address})
         except ValueError as e:
             return JsonResponse({"error": str(e)}, status=500)
     else:
